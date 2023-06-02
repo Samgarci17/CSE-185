@@ -1,0 +1,125 @@
+def suffix_array(string):
+    return(list(sorted(range(len(string)), key=lambda i:string[i:])))
+
+def bwt_from_suffix(string, s_array=None):
+    if s_array is None:
+        s_array = suffix_array(string)
+    return("".join(string[idx - 1] for idx in s_array))
+
+
+def lf_mapping(bwt, letters=None):
+    if letters is None:
+        letters = set(bwt)
+        
+    result = {letter:[0] for letter in letters}
+    result[bwt[0]] = [1]
+    for letter in bwt[1:]:
+        for i, j in result.items():
+            j.append(j[-1] + (i == letter))
+    return(result)
+
+
+from collections import Counter
+
+def count_occurences(string, letters=None):
+    count = 0
+    result = {}
+    
+    if letters is None:
+        letters = set(string)
+        
+    c = Counter(string)
+    
+    for letter in sorted(letters):
+        result[letter] = count
+        count += c[letter]
+    return result
+
+
+def update(begin, end, letter, lf_map, counts, string_length):
+    beginning = counts[letter] + lf_map[letter][begin - 1] + 1
+    ending = counts[letter] + lf_map[letter][end]
+    return(beginning,ending)
+
+
+
+def generate_all(input_string, s_array=None, eos="$"):
+    letters = set(input_string)
+    try:
+        assert eos not in letters
+    
+        counts = count_occurences(input_string, letters)
+
+        input_string = "".join([input_string, eos])
+        if s_array is None:
+            s_array = suffix_array(input_string)
+        bwt = bwt_from_suffix(input_string, s_array)
+        lf_map = lf_mapping(bwt, letters | set([eos]))
+
+        for i, j in lf_map.items():
+            j.extend([j[-1], 0]) # for when pointers go off the edges
+
+        return letters, bwt, lf_map, counts, s_array
+
+    except:
+        print("End of string character found in text, deleted EOS from input string")
+        input_string = input_string.replace(eos, "")
+        letters = set(input_string)
+        counts = count_occurences(input_string, letters)
+
+        input_string = "".join([input_string, eos])
+        if s_array is None:
+            s_array = suffix_array(input_string)
+        bwt = bwt_from_suffix(input_string, s_array)
+        lf_map = lf_mapping(bwt, letters | set([eos]))
+
+        for i, j in lf_map.items():
+            j.extend([j[-1], 0]) # for when pointers go off the edges
+
+        return letters, bwt, lf_map, counts, s_array
+
+    
+def bwtfind(search_string, input_string, mismatches=0, bwt_data=None, s_array=None):
+    
+    results = []
+     
+    if len(search_string) == 0:
+        return("Empty Query String")
+    if bwt_data is None:
+        bwt_data = generate_all(input_string, s_array=s_array)
+    
+    letters, bwt, lf_map, count, s_array = bwt_data
+    
+    if len(letters) == 0:
+        return("Empty Search String")
+
+    if not set(search_string) <= letters:
+        return []
+
+    length = len(bwt)
+    
+
+    class Fuzzy(object):
+        def __init__(self, **kwargs):
+            self.__dict__.update(kwargs)
+
+    fuz = [Fuzzy(search_string=search_string, begin=0, end=len(bwt) - 1,
+                        mismatches=mismatches)]
+
+    while len(fuz) > 0:
+        p = fuz.pop()
+        search_string = p.search_string[:-1]
+        last = p.search_string[-1]
+        all_letters = [last] if p.mismatches == 0 else letters
+        for letter in all_letters:
+            begin, end = update(p.begin, p.end, letter, lf_map, count, length)
+            if begin <= end:
+                if len(search_string) == 0:
+                    results.extend(s_array[begin : end + 1])
+                else:
+                    miss = p.mismatches
+                    if letter != last:
+                        miss = max(0, p.mismatches - 1)
+                    fuz.append(Fuzzy(search_string=search_string, begin=begin,
+                                            end=end, mismatches=miss))
+    return sorted(set(results))

@@ -1,0 +1,5 @@
+#pyfaidx==0.7.2.1
+BWTsearch==0.1.15
+sequence-align==0.1.0
+fastq==2.0.2
+miniFasta==3.0.2

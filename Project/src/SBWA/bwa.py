@@ -1,32 +1,30 @@
 import argparse
+from bwtSearch import *
+import fastq as fq
+import miniFasta as mf
+from sequence_align.pairwise import hirschberg, needleman_wunsch
 
-def bwt(text):
-    text += '$'
-    transformation = ''
-    arr = [text]
-    char = text[len(text)-1]
-    for i in range(len(text)-1):
-        text = text[:len(text)-1]
-        text = char + text
-        char = text[len(text)-1]
-        arr.append(text)
-    arr.sort()
-    for x in arr:
-        transformation += x[len(x)-1]
-    
-    return transformation
+def main():
+    parser = argparse.ArgumentParser(
+        prog='mem',
+        description='Command-line script to perform sequence alignment on fastq sequences using an index of a reference genome'
+    )
+    parser.add_argument('fa_file',  type=str)
+    parser.add_argument('fq1_file',  type=str)
+    parser.add_argument('fq2_file', nargs='?', type=str)
+    args = parser.parse_args()
 
-parser = argparse.ArgumentParser()
-parser.add_argument('command', choices=['index', 'mem'])
-parser.add_argument('idx',  type=str)
-args = parser.parse_args()
-cmd = args.command
-if cmd == 'index':
-    text = ''
-    genome = args.idx
-    f = open(genome,'r')
-    text = f.readline()
-    f.close()
+    genome_string = mf.read(args.fa_file, seq=True)
+    genome_string = list(genome_string)
+    genome_string = genome_string[0]
+    fos1 = fq.read(args.fq1_file) # Iterator of fastq entries.
+    if args.fq2_file:
+        fos2 = fq.read(args.fq2_file)
+    fos1 = list(fos1) # Cast to list
+    print(genome_string)
+    for x in fos1:
+        seq = x.getSeq()
+        print(bwtfind(genome_string, seq, len(seq)//100))
 
-    indexFile = bwt(text)
-    print(indexFile)
+if __name__ == "__main__":
+    main()
