@@ -1,3 +1,6 @@
+import random
+k = 3
+
 def sortArr(e):
     return e[1]
 
@@ -66,14 +69,59 @@ def buildCheckpoint(bwt, k):
 
     return check
 
+def getCheckpoint(symbol, stop, bwt, check):
+    start = stop//k 
+    count = check[symbol][start]
+    for i in range(start+1,stop):
+        if bwt[i] == symbol:
+            count += 1
+    
+    return count
 
 
-def getCheckpoint():
+'''def seedExt():
     pass
 
-def search():
-    pass
+def seed(pattern, d=3):
+    seeds = []
+    vals = []
+    while len(vals) < d:
+        pick = random.randrange(1,len(pattern))
+        if not vals.count(pick):
+            vals.append(pick)
+    vals.sort()
+    prev = 0
+    for x in vals:
+        x = x - prev
+        split = pattern[:x]
+        pattern = pattern[x:]
+        seeds.append(split)
+        prev += len(split)
+
+    seeds.append(pattern)
+
+    return seeds'''
+
+def search(bwt, psa, occ, check, pattern):
+    '''seeds = seed(pattern)
+    for seed in seeds:
+        for x in range(len(seed),0,-1):
+            seed[x]'''
+    
+    top = 0
+    bottom = len(bwt)-1
+    while top <= bottom:
+        if len(pattern) > 0:
+            symbol = pattern[-1]
+            pattern = pattern[:len(pattern)]
+            if occ[symbol] > top and occ[symbol] < bottom:
+                top = occ[symbol] + getCheckpoint(symbol, top, bwt, check)
+                bottom = occ[symbol] + getCheckpoint(symbol, bottom+1, bwt, check)-1
+            else:
+                return 0
+        else:
+            return bottom - top + 1
+        
 
 ans_bwt = 'TTCCTAACG$A'
 test_bwt = buildBWT('TACATCACGT')
-print(buildCheckpoint(test_bwt,3))
