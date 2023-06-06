@@ -44,7 +44,7 @@ def buildOccurrence(bwt):
     return occ
 
 def buildCheckpoint(bwt, k):
-    check = {'$':[0],'A':[0],'C':[0],'G':[0],'T':[0]}
+    check = {'$':[(0,0)],'A':[(0,0)],'C':[(0,0)],'G':[(0,0)],'T':[(0,0)]}
     c_a, c_, c_t, c_g, c_c = 0, 0, 0, 0, 0
     for x in range(len(bwt)):
         match bwt[x]:
@@ -64,24 +64,25 @@ def buildCheckpoint(bwt, k):
                 c_ += 1
         if x%k == 0 or k:
 
-            check['A'].append(c_a)
-            check['C'].append(c_c)
-            check['T'].append(c_t)
-            check['G'].append(c_g)
-            check['$'].append(c_)
+            check['A'].append((c_a, x))
+            check['C'].append((c_c, x))
+            check['T'].append((c_t, x))
+            check['G'].append((c_g, x))
+            check['$'].append((c_, x))
 
     return check
 
 def getCheckpoint(symbol, stop, bwt, check):
     start = (stop)//k
-    count = check[symbol][start]
-    for i in range(start,stop):
+    pair = check[symbol][start]
+    count = pair[0]
+    start = pair[1]
+    for i in range(start, stop):
         if bwt[i] == symbol:
             count += 1
     print(len(bwt),start,stop)
     return count
 
-#FIX GET CHECKPOINT AS IT DOES NOT HAVE THE RIGHT SEARCH INTERVAL WHEN LOOKING THROUGH BWT FOR POTENTIAL ADDITIONS TO THE CURRENT COUNT OF A SYMBOL AT THE INDEX TOP OR BOTTOM, SEARCH INTERVAL SHOULD BE FROM THE INDEX X TO Y IN BWT BUT IS CURRENTLY X IN CHECK ARRAY WHCI IS SMALLER BY %K TO Y IN BWT, SO EITHER SAVE THE CORRESPONGING INDEX WHEN BUILDNG THE ARRAY OR LOOK AT THE PAPER AGAIN AND SEE HOW THEY ACCESS...
 
 '''def seedExt():
     pass
