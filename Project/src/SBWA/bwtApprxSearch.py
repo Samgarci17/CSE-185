@@ -1,5 +1,6 @@
 import random
-k = 3
+global k 
+k = 2
 
 def sortArr(e):
     return e[1]
@@ -34,6 +35,8 @@ def buildPSA(text, k):
 
 def buildOccurrence(bwt):
     occ = {'$':'Null','A':'Null','C':'Null','G':'Null','T':'Null'}
+    bwt = bwt.copy()
+    bwt.sort()
     for x in range(0,len(bwt)):
         if occ[bwt[x]] == 'Null':
             occ[bwt[x]] = x
@@ -41,7 +44,7 @@ def buildOccurrence(bwt):
     return occ
 
 def buildCheckpoint(bwt, k):
-    check = {'$':[],'A':[],'C':[],'G':[],'T':[]}
+    check = {'$':[0],'A':[0],'C':[0],'G':[0],'T':[0]}
     c_a, c_, c_t, c_g, c_c = 0, 0, 0, 0, 0
     for x in range(len(bwt)):
         match bwt[x]:
@@ -59,7 +62,7 @@ def buildCheckpoint(bwt, k):
                 
             case '$':
                 c_ += 1
-        if x%k == 0:
+        if x%k == 0 or k:
 
             check['A'].append(c_a)
             check['C'].append(c_c)
@@ -70,14 +73,15 @@ def buildCheckpoint(bwt, k):
     return check
 
 def getCheckpoint(symbol, stop, bwt, check):
-    start = stop//k 
+    start = (stop)//k
     count = check[symbol][start]
-    for i in range(start+1,stop):
+    for i in range(start,stop):
         if bwt[i] == symbol:
             count += 1
-    
+    print(len(bwt),start,stop)
     return count
 
+#FIX GET CHECKPOINT AS IT DOES NOT HAVE THE RIGHT SEARCH INTERVAL WHEN LOOKING THROUGH BWT FOR POTENTIAL ADDITIONS TO THE CURRENT COUNT OF A SYMBOL AT THE INDEX TOP OR BOTTOM, SEARCH INTERVAL SHOULD BE FROM THE INDEX X TO Y IN BWT BUT IS CURRENTLY X IN CHECK ARRAY WHCI IS SMALLER BY %K TO Y IN BWT, SO EITHER SAVE THE CORRESPONGING INDEX WHEN BUILDNG THE ARRAY OR LOOK AT THE PAPER AGAIN AND SEE HOW THEY ACCESS...
 
 '''def seedExt():
     pass
@@ -102,26 +106,59 @@ def seed(pattern, d=3):
 
     return seeds'''
 
-def search(bwt, psa, occ, check, pattern):
-    '''seeds = seed(pattern)
-    for seed in seeds:
-        for x in range(len(seed),0,-1):
-            seed[x]'''
-    
+def getIdx(psa, idx, bwt):
+    pass
+
+
+def exactsearch(bwt, occ, check, pattern,curr):
     top = 0
     bottom = len(bwt)-1
     while top <= bottom:
         if len(pattern) > 0:
+            empty = False
             symbol = pattern[-1]
-            pattern = pattern[:len(pattern)]
-            if occ[symbol] > top and occ[symbol] < bottom:
+            pattern = pattern[:-1]
+            for i in range(top, bottom+1):
+                if bwt[i] == symbol:
+                    empty = True
+            if empty:
                 top = occ[symbol] + getCheckpoint(symbol, top, bwt, check)
                 bottom = occ[symbol] + getCheckpoint(symbol, bottom+1, bwt, check)-1
-            else:
-                return 0
+                curr += symbol
+                print(top,bottom)
+            else: #if mismatch
+               return 0
+               ''' if len(curr) > min_len:
+                    if mismatch < 3:
+                        mismatch += 1
+                        for x in range(top, bottom):
+                            idx = search(bwt, occ, check, pattern+bwt[x], min_len, curr, mismatch)
+                            if idx > 0:
+                                return idx'''  
         else:
-            return bottom - top + 1
+            return bottom - top + 1, curr
         
+def build(text, pattern):
+    testbwt = buildBWT(genome)
+    testpsa = buildPSA(genome, k)
+    testocc = buildOccurrence(testbwt)
+    testcheck = buildCheckpoint(testbwt,k)
+    min_l, curr, d = len(query)//5*2, '', 0
+    return testbwt, testpsa, testocc, testcheck, min_l, curr, d
 
-ans_bwt = 'TTCCTAACG$A'
-test_bwt = buildBWT('TACATCACGT')
+def findindex(bwt, psa, idx, check, occ):
+    curr = bwt[idx]
+    next = occ[curr] + getCheckpoint(curr, idx, bwt, check)
+
+
+query = 'TAT'
+genome = 'GGCTATAGT' 
+
+def main():
+    functions = build(genome, query)
+    idx = exactsearch(functions[0], functions[2], functions[3], query, functions[5])
+    print(idx)
+
+
+if __name__ == "__main__":
+    main()
