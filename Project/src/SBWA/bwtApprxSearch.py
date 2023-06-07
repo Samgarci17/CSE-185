@@ -62,7 +62,7 @@ def buildCheckpoint(bwt, k):
                 
             case '$':
                 c_ += 1
-        if x%k == 0 or k:
+        if x%k == 0 or x%k == k:
 
             check['A'].append((c_a, x))
             check['C'].append((c_c, x))
@@ -77,44 +77,17 @@ def getCheckpoint(symbol, stop, bwt, check):
     pair = check[symbol][start]
     count = pair[0]
     start = pair[1]
-    for i in range(start, stop):
+    for i in range(start+1, stop):
         if bwt[i] == symbol:
             count += 1
-    print(len(bwt),start,stop)
     return count
 
-
-'''def seedExt():
-    pass
-
-def seed(pattern, d=3):
-    seeds = []
-    vals = []
-    while len(vals) < d:
-        pick = random.randrange(1,len(pattern))
-        if not vals.count(pick):
-            vals.append(pick)
-    vals.sort()
-    prev = 0
-    for x in vals:
-        x = x - prev
-        split = pattern[:x]
-        pattern = pattern[x:]
-        seeds.append(split)
-        prev += len(split)
-
-    seeds.append(pattern)
-
-    return seeds'''
-
-def getIdx(psa, idx, bwt):
-    pass
-
-
-def exactsearch(bwt, occ, check, pattern,curr):
+def exactsearch(bwt, occ, check, pattern, q_string, a_string, mismatch):
     top = 0
     bottom = len(bwt)-1
     while top <= bottom:
+        print(top, bottom)
+        print(pattern,'original')
         if len(pattern) > 0:
             empty = False
             symbol = pattern[-1]
@@ -123,42 +96,52 @@ def exactsearch(bwt, occ, check, pattern,curr):
                 if bwt[i] == symbol:
                     empty = True
             if empty:
+                print(pattern,'match')
                 top = occ[symbol] + getCheckpoint(symbol, top, bwt, check)
                 bottom = occ[symbol] + getCheckpoint(symbol, bottom+1, bwt, check)-1
-                curr += symbol
-                print(top,bottom)
-            else: #if mismatch
-               return 0
-               ''' if len(curr) > min_len:
+                a_string = symbol + a_string
+            elif mismatch < 3: 
+                for i in range(top, bottom+1):
+                    print(pattern,'mismatch')
+                    print(pattern+bwt[i],'new search')
+                    ans = exactsearch(bwt, occ, check, pattern+bwt[i], q_string, a_string, mismatch)
+                    if ans != None:
+                        return ans
+                #return 0
+                    ''' if len(curr) > min_len:
                     if mismatch < 3:
                         mismatch += 1
                         for x in range(top, bottom):
                             idx = search(bwt, occ, check, pattern+bwt[x], min_len, curr, mismatch)
                             if idx > 0:
                                 return idx'''  
+            else:
+                return None
         else:
-            return bottom - top + 1, curr
+            return bottom, top, a_string
         
 def build(text, pattern):
     testbwt = buildBWT(genome)
     testpsa = buildPSA(genome, k)
     testocc = buildOccurrence(testbwt)
     testcheck = buildCheckpoint(testbwt,k)
-    min_l, curr, d = len(query)//5*2, '', 0
-    return testbwt, testpsa, testocc, testcheck, min_l, curr, d
+    min_l = len(query)//5*2
+    return testbwt, testpsa, testocc, testcheck, min_l
 
-def findindex(bwt, psa, idx, check, occ):
-    curr = bwt[idx]
-    next = occ[curr] + getCheckpoint(curr, idx, bwt, check)
+def findindex(bwt, psa, top, bottom, check, occ):
+    pass
 
 
-query = 'TAT'
-genome = 'GGCTATAGT' 
+query = 'AGCGGC'
+genome = 'GGCTATAGTGGCTATAGT' 
 
 def main():
     functions = build(genome, query)
-    idx = exactsearch(functions[0], functions[2], functions[3], query, functions[5])
-    print(idx)
+    idx = exactsearch(functions[0], functions[2], functions[3], query, '', '', 0)    
+    alignment = idx[2]
+    i = idx[0]
+    j = idx[1]
+
 
 
 if __name__ == "__main__":
