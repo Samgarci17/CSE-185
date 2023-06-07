@@ -72,7 +72,6 @@ def buildBWTMF(bwt, text, k):
 
     return psa, occ, count
 
-
 def main():
     parser = argparse.ArgumentParser(
         prog='index',
