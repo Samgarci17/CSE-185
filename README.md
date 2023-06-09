@@ -36,7 +36,7 @@ Note: If the spyglass command was not found, you may need to include the script 
 
 <a name="usage"></a>
 ## Basic Usage 
-The basic usage of `spyglass` is:
+The basic usage of `SBWA` is:
 ```
 SBWA fasta.fa 
 ```
