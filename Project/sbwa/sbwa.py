@@ -80,7 +80,6 @@ def main():
         description='Index database sequences in the FASTA format.'
     )
     parser.add_argument('fa',  type=str)
-    parser.add_argument('-p',  type=str, help='Prefix of the output database [same as db filename]')
     args = parser.parse_args()
     args.fa
 
