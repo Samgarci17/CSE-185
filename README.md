@@ -25,7 +25,6 @@ Once the required packages have been installed (please see [Prerequisites](#prer
 ```
 git clone https://github.com/Samgarci17/CSE-185
 cd CSE-185
-cd Project
 python setup.py install
 ```
 Note: if you do not have root access, you can run the command above with additional options to install locally:
