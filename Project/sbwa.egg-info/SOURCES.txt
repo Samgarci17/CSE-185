@@ -1,7 +1,0 @@
-README.md
-setup.py
-sbwa.egg-info/PKG-INFO
-sbwa.egg-info/SOURCES.txt
-sbwa.egg-info/dependency_links.txt
-sbwa.egg-info/entry_points.txt
-sbwa.egg-info/top_level.txt

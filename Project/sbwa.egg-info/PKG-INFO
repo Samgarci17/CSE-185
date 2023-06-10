@@ -1,8 +1,0 @@
-Metadata-Version: 2.1
-Name: sbwa
-Version: 1.0.0
-Summary: Index database sequences in the FASTA format.
-Home-page: https://github.com/Samgarci17/CSE-185
-Author: Samuel Garcia
-Author-email: sag086@ucsd.edu
-Requires-Python: >=3.6
