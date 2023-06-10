@@ -9,6 +9,20 @@ def sortArr(e):
     return e[1]
 
 def sufArr(text):
+    '''
+    Builds a suffix array from text using a naive implementation
+
+    Parameters
+    ----------
+    text: string
+        text to build suffix array from 
+
+
+    Returns 
+    -------
+    ans: list
+        list containing the indices corresponding to the sorted suffixes of text
+    '''
     arr = []
     ans = []
     for i in range(len(text)):
@@ -22,12 +36,43 @@ def sufArr(text):
     return ans
 
 def buildPSA(text, k):
+    '''
+    Builds the list of every k indice from the suffix array
+
+    Parameters
+    ----------
+    bwt: string
+        The bwt of the genomic sequence
+
+    k: int
+        The k value that reduces the size of psa by k
+
+
+    Returns 
+    -------
+    check: list
+        partial suffix array reduced by a size of k from sa
+    '''
     text+='$'
     sa = sufArr(text)
     psa = [sa[x] for x in range(len(sa)) if x%k==0]
     return psa
 
 def buildOccurrence(bwt):
+    '''
+    Builds a dict containting the index corresponding to the first occurence of every letter in the bwt alphabet
+
+    Parameters
+    ----------
+    bwt: string
+        The bwt of the genomic sequence
+
+
+    Returns 
+    -------
+    occ: dict
+        The dict holding the first occurences
+    '''
     occ = {'$':'Null','A':'Null','C':'Null','G':'Null','T':'Null'}
     bwt = bwt.copy()
     bwt.sort()
@@ -38,6 +83,23 @@ def buildOccurrence(bwt):
     return occ
 
 def buildCheckpoint(bwt, k):
+    '''
+    Builds the dict containing the amount of characters seen at every 4k index
+
+    Parameters
+    ----------
+    bwt: string
+        The bwt of the genomic sequence
+
+    k: int
+        The k value that reduces the size of check by 4k
+
+
+    Returns 
+    -------
+    check: dict
+        dict containing the amount of characters seen at every 4k index
+    '''
     check = {'$':[(0,0)],'A':[(0,0)],'C':[(0,0)],'G':[(0,0)],'T':[(0,0)]}
     c_a, c_, c_t, c_g, c_c = 0, 0, 0, 0, 0
     for x in range(len(bwt)):
@@ -67,6 +129,32 @@ def buildCheckpoint(bwt, k):
     return check
 
 def buildBWTMF(bwt, text, k):
+    '''
+    Build the auxillary arrays for alignment from the BWT of a string 
+
+    Parameters
+    ----------
+    bwt: string
+        The bwt of the genomic sequence
+
+    text: string
+        The original string that has been transformed
+
+    k: int
+        The k value that reduces the size of the psa array by k and count by 4k
+
+
+    Returns 
+    -------
+    psa: list
+        list of every k indice from the suffix array
+
+    occ: dict 
+        dict containting the index corresponding to the first occurence of every letter in the bwt alphabet
+
+    count: dict
+        dict containing the amount of characters seen at every 4k index
+    '''
     psa = buildPSA(text, k)
     occ = buildOccurrence(bwt)
     count = buildCheckpoint(bwt, k*4)
