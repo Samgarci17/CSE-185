@@ -43,7 +43,13 @@ A dna sequence in fasta format:
 
 ### Output Files
 ```
+Sequence.txt - containing the original sequence from the .fa file
+Sequence_bwt.txt - containing the bwt of the original sequence from the .fa file
+Sequence_bwt_compressed.txt - containing the binary compressed huffman encoding of the bwt of the sequence from the .fa file
 
+countArray.txt - containing the count array built from the bwt 
+partialSuffixArray.txt - containing the psa array built from the bwt 
+occurenceArray.txt - containing the occurence array built from the bwt 
 ```
 
 <a name="contributors"></a>
