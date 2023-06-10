@@ -11,7 +11,7 @@ setup(
     packages=find_packages(),
     entry_points={
         "console_scripts": [
-            'sbwa=src.sbwa.sbwa:main'
+            'index = CSE185.sbwa:main'
         ],
     },
 )
