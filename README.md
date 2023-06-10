@@ -24,6 +24,7 @@ pip install --user dnazip-bioinfo fastq minifasta
 Once the required packages have been installed (please see [Prerequisites](#prerequisites)), install `SBWA` with the following commands:
 ```
 git clone (https://github.com/Samgarci17/CSE-185)
+cd Project
 cd sbwa
 python setup.py install
 ```
