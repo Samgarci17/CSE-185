@@ -37,7 +37,7 @@ index <fasta.fa>
 Special note, file paths have to use `/` and not `\` as the path is read as a string and python handles backslashes in strings weirdly
 
 ### Testing `SBWA`: 10k File
-To run `spyglass` on the small test files (see `tests`):
+To run `SBWA` on the small test files (see `tests`):
 #### Using User-Provided Background
 ```
 index tests/10k.fa
