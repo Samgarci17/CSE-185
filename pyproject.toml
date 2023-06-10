@@ -15,7 +15,9 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
-]
+],
+package_dir={'':"src"},
+packages=find_packages("src")
 
 [project.urls]
 "Homepage" = "https://github.com/Samgarci17/CSE-185"
