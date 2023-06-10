@@ -19,29 +19,33 @@ def main():
         description='Index database sequences in the FASTA format.'
     )
 
+    outdir = os.getcwd()
+    if not os.path.exists(outdir):
+        os.mkdir(outdir)
+
     parser.add_argument('fa',
                     type=str)
     args = parser.parse_args()
 
     fasta_strings = mf.read(args.fa, seq=True)
     fasta_strings = list(fasta_strings)
-    f = open('sequence.txt', 'w')
+    f = open(outdir + 'sequence.txt', 'w')
     genome = fasta_strings[0]
     for x in fasta_strings:
         f.write(x)
     f.close()
-    encode = FullEncoder(r'sequence.txt')
+    encode = FullEncoder(outdir + r'sequence.txt')
     encode.full_zip()
     bwtmf = buildBWTMF(list(encode.bw_encoder.bwt), genome, 100)
 
     
-    f = open('partialSuffixArray.txt', 'w')
+    f = open(outdir + 'partialSuffixArray.txt', 'w')
     f.write(''.join(str(bwtmf[0])))
     f.close
-    f = open('occurenceArray.txt', 'w')
+    f = open(outdir + 'occurenceArray.txt', 'w')
     f.write(''.join(str(bwtmf[1])))
     f.close
-    f = open('countArray.txt', 'w')
+    f = open(outdir + 'countArray.txt', 'w')
     f.write(''.join(str(bwtmf[2])))
     f.close
 
