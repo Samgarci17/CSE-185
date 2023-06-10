@@ -4,7 +4,7 @@
 Command line script to create an index file from a dna dequence as well as auxillary data structues that assist with local alignment.
 
 '''
-import pathlib
+from pathlib import Path
 from util import *
 import argparse
 import fastq as fq
@@ -20,10 +20,8 @@ def main():
     )
 
     parser.add_argument('fa',
-                    help="input fasta file", metavar="FILE",
-                    type=lambda x: is_valid_file(parser, x))
+                    type=str)
     args = parser.parse_args()
-    print(args.fa)
 
     fasta_strings = mf.read(args.fa, seq=True)
     fasta_strings = list(fasta_strings)
