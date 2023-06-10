@@ -21,11 +21,8 @@ def main():
     )
 
     outdir = os.getcwd()
-    if not os.path.exists(outdir):
-        os.mkdir(outdir)
 
-    parser.add_argument('fa',
-                    type=str)
+    parser.add_argument('fa', type=str)
     args = parser.parse_args()
 
     fasta_strings = mf.read(args.fa, seq=True)
