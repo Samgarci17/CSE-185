@@ -5,7 +5,8 @@ Command line script to create an index file from a dna dequence as well as auxil
 
 '''
 from pathlib import Path
-from util import *
+import os
+from . import util as util
 import argparse
 import fastq as fq
 from dnazip.encoder import FullEncoder
@@ -36,7 +37,7 @@ def main():
     f.close()
     encode = FullEncoder(outdir + r'sequence.txt')
     encode.full_zip()
-    bwtmf = buildBWTMF(list(encode.bw_encoder.bwt), genome, 100)
+    bwtmf = util.buildBWTMF(list(encode.bw_encoder.bwt), genome, 100)
 
     
     f = open(outdir + 'partialSuffixArray.txt', 'w')
