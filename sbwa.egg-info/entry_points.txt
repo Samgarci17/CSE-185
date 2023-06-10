@@ -1,2 +1,2 @@
 [console_scripts]
-index = CSE185.sbwa:main
+index = sbwa.sbwa:main

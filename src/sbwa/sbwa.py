@@ -4,7 +4,7 @@
 Command line script to create an index file from a dna dequence as well as auxillary data structues that assist with local alignment.
 
 '''
-
+import pathlib
 from util import *
 import argparse
 import fastq as fq
@@ -18,9 +18,12 @@ def main():
         prog='index',
         description='Index database sequences in the FASTA format.'
     )
-    parser.add_argument('fa',  type=str)
+
+    parser.add_argument('fa',
+                    help="input fasta file", metavar="FILE",
+                    type=lambda x: is_valid_file(parser, x))
     args = parser.parse_args()
-    args.fa
+    print(args.fa)
 
     fasta_strings = mf.read(args.fa, seq=True)
     fasta_strings = list(fasta_strings)
@@ -32,6 +35,8 @@ def main():
     encode = FullEncoder(r'sequence.txt')
     encode.full_zip()
     bwtmf = buildBWTMF(list(encode.bw_encoder.bwt), genome, 100)
+
+    
     f = open('partialSuffixArray.txt', 'w')
     f.write(''.join(str(bwtmf[0])))
     f.close

@@ -2,6 +2,7 @@ import argparse
 import fastq as fq
 from dnazip.encoder import FullEncoder
 import miniFasta as mf
+import os
 
 
 def sortArr(e):
@@ -159,3 +160,9 @@ def buildBWTMF(bwt, text, k):
     count = buildCheckpoint(bwt, k*4)
 
     return psa, occ, count
+
+def is_valid_file(parser, arg):
+    if not os.path.exists(arg):
+        parser.error("The file %s does not exist!" % arg)
+    else:
+        return open(arg, 'r')  # return an open file handle
