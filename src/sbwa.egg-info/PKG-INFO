@@ -1,3 +1,16 @@
+Metadata-Version: 2.1
+Name: sbwa
+Version: 0.0.1
+Summary: Index database sequences in the FASTA format
+Author-email: Samuel Garcia Author <sag086@ucsd.edu>
+Project-URL: Homepage, https://github.com/Samgarci17/CSE-185
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
 # SBWA
 `SBWA` is a software package for mapping low-divergent sequences against a large reference genome, such as the human genome. Based of the Burrows Wheelers Aligner Tool, which can be found here https://bio-bwa.sourceforge.net/
 
@@ -23,7 +36,13 @@ pip install --user dnazip-bioinfo fastq minifasta
 ## Installation
 Once the required packages have been installed (please see [Prerequisites](#prerequisites)), install `SBWA` with the following commands:
 ```
-pip install -i https://test.pypi.org/simple/ sbwa
+git clone https://github.com/Samgarci17/CSE-185
+cd CSE-185
+python setup.py install
+```
+Note: if you do not have root access, you can run the command above with additional options to install locally:
+```
+python setup.py install --user
 ```
 
 Note: If the SBWA command was not found, you may need to include the script installation path in your `$PATH` before calling spyglass. You can use `export PATH=$PATH:/home/<user>/.local/bin` to do so. 

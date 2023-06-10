@@ -1,0 +1,11 @@
+LICENSE
+README.md
+pyproject.toml
+src/sbwa/_init_.py
+src/sbwa/bwtApprxSearch.py
+src/sbwa/sbwa.py
+src/sbwa/version.py
+src/sbwa.egg-info/PKG-INFO
+src/sbwa.egg-info/SOURCES.txt
+src/sbwa.egg-info/dependency_links.txt
+src/sbwa.egg-info/top_level.txt
