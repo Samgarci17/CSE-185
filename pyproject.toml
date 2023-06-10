@@ -1,10 +1,15 @@
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = [
+"setuptools>=61.0", 
+"dnazip-bioinfo==0.2",
+"fastq==2.0.2",
+"miniFasta==3.0.2"
+]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "sbwa"
-version = "0.0.1"
+version = "0.0.2"
 authors = [
   { name="Samuel Garcia Author", email="sag086@ucsd.edu" },
 ]

@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: sbwa
-Version: 0.0.1
+Version: 0.0.2
 Summary: Index database sequences in the FASTA format
 Author-email: Samuel Garcia Author <sag086@ucsd.edu>
 Project-URL: Homepage, https://github.com/Samgarci17/CSE-185
@@ -36,13 +36,7 @@ pip install --user dnazip-bioinfo fastq minifasta
 ## Installation
 Once the required packages have been installed (please see [Prerequisites](#prerequisites)), install `SBWA` with the following commands:
 ```
-git clone https://github.com/Samgarci17/CSE-185
-cd CSE-185
-python setup.py install
-```
-Note: if you do not have root access, you can run the command above with additional options to install locally:
-```
-python setup.py install --user
+pip install -i https://test.pypi.org/simple/ sbwa
 ```
 
 Note: If the SBWA command was not found, you may need to include the script installation path in your `$PATH` before calling spyglass. You can use `export PATH=$PATH:/home/<user>/.local/bin` to do so. 

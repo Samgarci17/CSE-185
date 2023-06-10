@@ -23,7 +23,7 @@ pip install --user dnazip-bioinfo fastq minifasta
 ## Installation
 Once the required packages have been installed (please see [Prerequisites](#prerequisites)), install `SBWA` with the following commands:
 ```
-pip install -i https://test.pypi.org/simple/ sbwa
+pip install -i https://test.pypi.org/simple/ sbwa==0.0.2
 ```
 
 Note: If the SBWA command was not found, you may need to include the script installation path in your `$PATH` before calling spyglass. You can use `export PATH=$PATH:/home/<user>/.local/bin` to do so. 
