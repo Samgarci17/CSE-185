@@ -5,7 +5,7 @@
 
 <a name="prerequisites"></a>
 ## Prerequisites
-`SBWA` requires the following python libraries to be installed:
+`SBWA` requires python version 3.10.0 or greater and the following python libraries to be installed:
 - dnazip-bioinfo
 - fastq
 - minifasta
