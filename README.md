@@ -23,16 +23,16 @@ pip install --user dnazip-bioinfo fastq minifasta
 ## Installation
 Once the required packages have been installed (please see [Prerequisites](#prerequisites)), install `SBWA` with the following commands:
 ```
-pip install -i https://test.pypi.org/simple/ sbwa==0.0.2
+git clone https://github.com/Samgarci17/CSE-185/
+cd CSE-185
+pip install .
 ```
-
-Note: If the SBWA command was not found, you may need to include the script installation path in your `$PATH` before calling spyglass. You can use `export PATH=$PATH:/home/<user>/.local/bin` to do so. 
 
 <a name="usage"></a>
 ## Basic Usage 
 The basic usage of `SBWA` is:
 ```
-SBWA fasta.fa 
+index <fasta.fa> 
 ```
 
 <a name="formats"></a>
@@ -42,6 +42,9 @@ SBWA fasta.fa
 A dna sequence in fasta format:
 
 ### Output Files
+```
+
+```
 
 <a name="contributors"></a>
 ## Contributors 
