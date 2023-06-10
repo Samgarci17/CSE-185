@@ -34,6 +34,7 @@ The basic usage of `SBWA` is:
 ```
 index <fasta.fa> 
 ```
+Special note, file paths have to use `/` and not `\` as the path is read as a string and python converts removes or converts backslashes form the string.
 
 <a name="formats"></a>
 ## File Formats
