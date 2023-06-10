@@ -1,9 +1,9 @@
 [build-system]
 requires = [
 "setuptools>=61.0", 
-"dnazip-bioinfo==0.2",
-"fastq==2.0.2",
-"miniFasta==3.0.2"
+"dnazip-bioinfo>=0.2",
+"fastq>=2.0.2",
+"miniFasta>=3.0.2"
 ]
 build-backend = "setuptools.build_meta"
 
